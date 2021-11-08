@@ -11,7 +11,7 @@ const options = {
   },
   headers: {
     "x-rapidapi-host": "travel-advisor.p.rapidapi.com",
-    "x-rapidapi-key": "qiBY7N9PDimsh2pLDwk34U5aLbdNp1Cdtj7jsnywQIpbmEeSit",
+    "x-rapidapi-key": process.env.REACT_APP_RAPID_KEY,
   },
 };
 
