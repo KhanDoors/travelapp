@@ -3,7 +3,7 @@ import Header from "./components/Header/Header";
 import List from "./components/List/List";
 import Map from "./components/Map/Map";
 // import PlaceDetails from "./components/PlaceDetails/PlaceDetails";
-import { getPlacesData } from "./api/index";
+import { getPlacesData, getWeatherData } from "./api/index";
 import { useEffect, useState } from "react";
 
 function App() {
@@ -15,6 +15,7 @@ function App() {
   const [type, setType] = useState("restaurants");
   const [rating, setRating] = useState("");
   const [filteredPlaces, setfilteredPlaces] = useState([]);
+  const [weatherData, setWeatherData] = useState([]);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
@@ -34,6 +35,11 @@ function App() {
   useEffect(() => {
     if (bounds.sw && bounds.ne) {
       setIsLoading(true);
+
+      getWeatherData(coords.lat, coords.lng).then((data) =>
+        setWeatherData(data)
+      );
+
       getPlacesData(type, bounds.sw, bounds.ne).then((data) => {
         setPlaces(data?.filter((place) => place.name && place.num_reviews > 0));
         setIsLoading(false);
@@ -75,6 +81,7 @@ function App() {
             setBounds={setBounds}
             places={filteredPlaces.length ? filteredPlaces : places}
             setChildClicked={setChildClicked}
+            weatherData={weatherData}
           />
         </Grid>
       </Grid>
